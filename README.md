@@ -1,6 +1,6 @@
 # 🍽️ AI Menu Recommendation Backend API
 
-This project implements an AI-powered menu recommendation system using **Node.js + Express**. It recommends unique food combos based on a master menu file. The backend provides daily personalized food combos that satisfy specific constraints such as **taste profile**, **popularity**, and **caloric balance**.
+This project implements an  menu recommendation system using **Node.js + Express**. It recommends unique food combos based on a master menu file. The backend provides daily personalized food combos that satisfy specific constraints such as **taste profile**, **popularity**, and **caloric balance**.
 
 ---
 
