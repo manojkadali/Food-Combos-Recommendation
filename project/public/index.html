@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Menu Recommendation System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #4a5568;
+            font-size: 1.1rem;
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .controls label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-right: 15px;
+        }
+
+        .controls select {
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            margin-right: 15px;
+            transition: border-color 0.3s ease;
+            background: white;
+            cursor: pointer;
+        }
+
+        .controls select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #c53030;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .json-output {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 20px;
+        }
+
+        .json-output h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .json-container {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            max-height: 600px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            background: #38b2ac;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: #319795;
+        }
+
+        .recommendations {
+            display: grid;
+            gap: 30px;
+        }
+
+        .day-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .day-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .day-calories {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .combos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .combo-card {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .combo-card:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .combo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .combo-id {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .taste-profile {
+            background: #38b2ac;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            text-transform: capitalize;
+        }
+
+        .combo-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .items-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 3px solid #e2e8f0;
+        }
+
+        .item.main { border-left-color: #f56565; }
+        .item.side { border-left-color: #ed8936; }
+        .item.drink { border-left-color: #38b2ac; }
+
+        .item-info {
+            flex-grow: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 2px;
+        }
+
+        .item-category {
+            font-size: 0.8rem;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .item-details {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #4a5568;
+        }
+
+        .calories {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .popularity {
+            background: #c6f6d5;
+            color: #2f855a;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .controls {
+                padding: 20px 15px;
+            }
+
+            .controls select {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            .btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .combos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .day-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .json-output {
+                position: static;
+                order: -1;
+            }
+        }
+
+        .summary {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 10px;
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .summary-label {
+            color: #4a5568;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ AI Menu Recommendation System</h1>
+            <p>Get personalized menu combos with balanced taste profiles and optimal nutrition</p>
+        </div>
+
+        <div class="controls">
+            <label for="weekdaySelect">Starting Day:</label>
+            <select id="weekdaySelect">
+                <option value="monday">Monday</option>
+                <option value="tuesday">Tuesday</option>
+                <option value="wednesday">Wednesday</option>
+                <option value="thursday">Thursday</option>
+                <option value="friday">Friday</option>
+                <option value="saturday">Saturday</option>
+                <option value="sunday">Sunday</option>
+            </select>
+            <button class="btn" onclick="getRecommendations()">Get Recommendations</button>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <p>🔄 Generating your personalized menu recommendations...</p>
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div id="summary" class="summary" style="display: none;">
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-value" id="totalDays">0</div>
+                    <div class="summary-label">Days</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value" id="totalCombos">0</div>
+                    <div class="summary-label">Combos</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value" id="avgCalories">0</div>
+                    <div class="summary-label">Avg Calories/Day</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value" id="uniqueItems">0</div>
+                    <div class="summary-label">Unique Items</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div id="recommendations" class="recommendations"></div>
+            
+            <div class="json-output">
+                <h3>📋 JSON Output</h3>
+                <div id="jsonContainer" class="json-container">
+                    Click "Get Recommendations" to see JSON output
+                </div>
+                <button class="copy-btn" onclick="copyJsonToClipboard()">Copy JSON</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        let currentJsonData = null;
+
+        async function getRecommendations() {
+            const weekdaySelect = document.getElementById('weekdaySelect');
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const recommendations = document.getElementById('recommendations');
+            const summary = document.getElementById('summary');
+            const jsonContainer = document.getElementById('jsonContainer');
+
+            // Show loading
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            recommendations.innerHTML = '';
+            summary.style.display = 'none';
+            jsonContainer.textContent = 'Loading...';
+
+            try {
+                const selectedWeekday = weekdaySelect.value;
+                const day = getStartingDayNumber(selectedWeekday);
+                const response = await fetch(`/api/recommendations?day=${day}`);
+                const data = await response.json();
+
+                loading.style.display = 'none';
+
+                if (data.success) {
+                    displayRecommendations(data.data);
+                    updateSummary(data.data);
+                    displayJsonOutput(data, selectedWeekday);
+                } else {
+                    showError(data.message || 'Failed to get recommendations');
+                    jsonContainer.textContent = 'Error loading data';
+                }
+            } catch (err) {
+                loading.style.display = 'none';
+                showError('Network error: ' + err.message);
+                jsonContainer.textContent = 'Network error occurred';
+            }
+        }
+
+        function getStartingDayNumber(weekday) {
+            // Convert weekday to a number (1-7, where 1 is Monday)
+            const weekdayIndex = weekdays.indexOf(weekday.toLowerCase());
+            return weekdayIndex === 0 ? 7 : weekdayIndex; // Sunday becomes 7, others stay the same
+        }
+
+        function getWeekdayName(dayNumber, startingWeekday) {
+            const startIndex = weekdays.indexOf(startingWeekday.toLowerCase());
+            const targetIndex = (startIndex + dayNumber - 1) % 7;
+            return weekdays[targetIndex].charAt(0).toUpperCase() + weekdays[targetIndex].slice(1);
+        }
+
+        function displayRecommendations(data) {
+            const container = document.getElementById('recommendations');
+            const selectedWeekday = document.getElementById('weekdaySelect').value;
+            container.innerHTML = '';
+
+            data.recommendations.forEach((dayData, index) => {
+                const weekdayName = getWeekdayName(index + 1, selectedWeekday);
+                const dayCard = document.createElement('div');
+                dayCard.className = 'day-card';
+
+                dayCard.innerHTML = `
+                    <div class="day-header">
+                        <h2 class="day-title">${weekdayName}</h2>
+                        <span class="day-calories">${dayData.total_day_calories} cal</span>
+                    </div>
+                    <div class="combos-grid">
+                        ${dayData.combos.map(combo => `
+                            <div class="combo-card">
+                                <div class="combo-header">
+                                    <span class="combo-id">Combo ${combo.combo_id}</span>
+                                    <span class="taste-profile">${combo.taste_profile}</span>
+                                </div>
+                                <div class="combo-stats">
+                                    <div class="stat">
+                                        <span>🔥</span>
+                                        <span>${combo.total_calories} cal</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span>⭐</span>
+                                        <span>${combo.average_popularity}</span>
+                                    </div>
+                                </div>
+                                <div class="items-list">
+                                    ${combo.items.map(item => `
+                                        <div class="item ${item.category}">
+                                            <div class="item-info">
+                                                <div class="item-name">${item.item_name}</div>
+                                                <div class="item-category">${item.category}</div>
+                                            </div>
+                                            <div class="item-details">
+                                                <span class="calories">${item.calories} cal</span>
+                                                <span class="popularity">${item.popularity_score}</span>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.appendChild(dayCard);
+            });
+        }
+
+        function displayJsonOutput(data, selectedWeekday) {
+            const jsonContainer = document.getElementById('jsonContainer');
+            
+            // Add weekday names to the data for better JSON output
+            const enhancedData = {
+                ...data,
+                data: {
+                    ...data.data,
+                    recommendations: data.data.recommendations.map((dayData, index) => ({
+                        ...dayData,
+                        weekday: getWeekdayName(index + 1, selectedWeekday)
+                    }))
+                }
+            };
+            
+            currentJsonData = enhancedData;
+            jsonContainer.textContent = JSON.stringify(enhancedData, null, 2);
+        }
+
+        function updateSummary(data) {
+            const summary = document.getElementById('summary');
+            const totalCalories = data.recommendations.reduce((sum, day) => sum + day.total_day_calories, 0);
+            const avgCalories = Math.round(totalCalories / data.recommendations.length);
+            
+            // Count unique items
+            const uniqueItems = new Set();
+            data.recommendations.forEach(day => {
+                day.combos.forEach(combo => {
+                    combo.items.forEach(item => {
+                        uniqueItems.add(item.item_name);
+                    });
+                });
+            });
+
+            document.getElementById('totalDays').textContent = data.total_days;
+            document.getElementById('totalCombos').textContent = data.total_combos;
+            document.getElementById('avgCalories').textContent = avgCalories;
+            document.getElementById('uniqueItems').textContent = uniqueItems.size;
+
+            summary.style.display = 'block';
+        }
+
+        function showError(message) {
+            const error = document.getElementById('error');
+            error.textContent = message;
+            error.style.display = 'block';
+        }
+
+        function copyJsonToClipboard() {
+            if (currentJsonData) {
+                const jsonText = JSON.stringify(currentJsonData, null, 2);
+                navigator.clipboard.writeText(jsonText).then(() => {
+                    const copyBtn = document.querySelector('.copy-btn');
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = 'Copied!';
+                    copyBtn.style.background = '#38a169';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                        copyBtn.style.background = '#38b2ac';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            }
+        }
+
+        // Load recommendations on page load
+        window.addEventListener('load', getRecommendations);
+    </script>
+</body>
+</html>

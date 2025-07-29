@@ -1,0 +1,19 @@
+{
+  "name": "ai-menu-recommendation-api",
+  "private": true,
+  "version": "1.0.0",
+  "description": "AI-powered menu recommendation backend API with Express.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["menu", "recommendation", "ai", "express", "api"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "latest",
+    "cors": "latest"
+  }
+}

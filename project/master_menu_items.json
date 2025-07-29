@@ -1,0 +1,198 @@
+[
+  {
+    "item_name": "Masala Dosa",
+    "category": "main",
+    "calories": 480,
+    "taste_profile": "savory",
+    "popularity_score": 0.88
+  },
+  {
+    "item_name": "Butter Chicken",
+    "category": "main",
+    "calories": 520,
+    "taste_profile": "savory",
+    "popularity_score": 0.92
+  },
+  {
+    "item_name": "Paneer Tikka",
+    "category": "main",
+    "calories": 380,
+    "taste_profile": "savory",
+    "popularity_score": 0.85
+  },
+  {
+    "item_name": "Biryani",
+    "category": "main",
+    "calories": 650,
+    "taste_profile": "savory",
+    "popularity_score": 0.95
+  },
+  {
+    "item_name": "Fish Curry",
+    "category": "main",
+    "calories": 420,
+    "taste_profile": "savory",
+    "popularity_score": 0.78
+  },
+  {
+    "item_name": "Vegetable Pulao",
+    "category": "main",
+    "calories": 380,
+    "taste_profile": "savory",
+    "popularity_score": 0.75
+  },
+  {
+    "item_name": "Chicken Tikka",
+    "category": "main",
+    "calories": 350,
+    "taste_profile": "spicy",
+    "popularity_score": 0.89
+  },
+  {
+    "item_name": "Mutton Curry",
+    "category": "main",
+    "calories": 580,
+    "taste_profile": "spicy",
+    "popularity_score": 0.82
+  },
+  {
+    "item_name": "Chole Bhature",
+    "category": "main",
+    "calories": 490,
+    "taste_profile": "spicy",
+    "popularity_score": 0.86
+  },
+  {
+    "item_name": "Samosa",
+    "category": "side",
+    "calories": 150,
+    "taste_profile": "savory",
+    "popularity_score": 0.90
+  },
+  {
+    "item_name": "Pakoras",
+    "category": "side",
+    "calories": 180,
+    "taste_profile": "savory",
+    "popularity_score": 0.85
+  },
+  {
+    "item_name": "Raita",
+    "category": "side",
+    "calories": 80,
+    "taste_profile": "savory",
+    "popularity_score": 0.75
+  },
+  {
+    "item_name": "Papad",
+    "category": "side",
+    "calories": 60,
+    "taste_profile": "savory",
+    "popularity_score": 0.70
+  },
+  {
+    "item_name": "Pickle",
+    "category": "side",
+    "calories": 40,
+    "taste_profile": "spicy",
+    "popularity_score": 0.88
+  },
+  {
+    "item_name": "Onion Rings",
+    "category": "side",
+    "calories": 200,
+    "taste_profile": "savory",
+    "popularity_score": 0.82
+  },
+  {
+    "item_name": "Chili Paneer",
+    "category": "side",
+    "calories": 220,
+    "taste_profile": "spicy",
+    "popularity_score": 0.84
+  },
+  {
+    "item_name": "French Fries",
+    "category": "side",
+    "calories": 250,
+    "taste_profile": "savory",
+    "popularity_score": 0.92
+  },
+  {
+    "item_name": "Masala Papad",
+    "category": "side",
+    "calories": 90,
+    "taste_profile": "spicy",
+    "popularity_score": 0.79
+  },
+  {
+    "item_name": "Iced Tea",
+    "category": "drink",
+    "calories": 120,
+    "taste_profile": "sweet",
+    "popularity_score": 0.78
+  },
+  {
+    "item_name": "Mango Lassi",
+    "category": "drink",
+    "calories": 180,
+    "taste_profile": "sweet",
+    "popularity_score": 0.85
+  },
+  {
+    "item_name": "Buttermilk",
+    "category": "drink",
+    "calories": 90,
+    "taste_profile": "savory",
+    "popularity_score": 0.72
+  },
+  {
+    "item_name": "Fresh Lime Soda",
+    "category": "drink",
+    "calories": 100,
+    "taste_profile": "tangy",
+    "popularity_score": 0.80
+  },
+  {
+    "item_name": "Coconut Water",
+    "category": "drink",
+    "calories": 60,
+    "taste_profile": "sweet",
+    "popularity_score": 0.75
+  },
+  {
+    "item_name": "Masala Chai",
+    "category": "drink",
+    "calories": 150,
+    "taste_profile": "spicy",
+    "popularity_score": 0.90
+  },
+  {
+    "item_name": "Cold Coffee",
+    "category": "drink",
+    "calories": 200,
+    "taste_profile": "sweet",
+    "popularity_score": 0.88
+  },
+  {
+    "item_name": "Nimbu Pani",
+    "category": "drink",
+    "calories": 80,
+    "taste_profile": "tangy",
+    "popularity_score": 0.76
+  },
+  {
+    "item_name": "Rose Milk",
+    "category": "drink",
+    "calories": 160,
+    "taste_profile": "sweet",
+    "popularity_score": 0.82
+  },
+  {
+    "item_name": "Jeera Water",
+    "category": "drink",
+    "calories": 50,
+    "taste_profile": "savory",
+    "popularity_score": 0.68
+  }
+]
